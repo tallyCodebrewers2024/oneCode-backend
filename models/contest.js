@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+const mongoose = require("mongoose");
 
 const contestSchema = new mongoose.Schema({
   contestId: {
@@ -56,4 +56,4 @@ const contestSchema = new mongoose.Schema({
 
 const Contest =
   mongoose.models.Contest || mongoose.model("Contest", contestSchema);
-export default Contest;
+module.exports = Contest;

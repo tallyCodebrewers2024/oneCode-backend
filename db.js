@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
-import "dotenv";
-import { configDotenv } from "dotenv";
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const { configDotenv } = require("dotenv");
 configDotenv();
 
 const connectToMongoDB = async () => {
@@ -13,4 +13,4 @@ const connectToMongoDB = async () => {
   }
 };
 
-export default connectToMongoDB;
+module.exports = connectToMongoDB;

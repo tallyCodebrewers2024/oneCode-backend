@@ -1,4 +1,4 @@
-import { mongoose } from "mongoose";
+const mongoose = require("mongoose");
 
 const problemSchema = new mongoose.Schema({
   problemId: {
@@ -74,4 +74,4 @@ const problemSchema = new mongoose.Schema({
 
 const Problem =
   mongoose.models.Problem || mongoose.model("Problem", problemSchema);
-export default Problem;
+module.exports = Problem;
