@@ -32,3 +32,15 @@ exports.getProblems = async (req, res) => {
     res.status(500).json({ error: "Error fetching problems" });
   }
 };
+
+exports.getProblem = async (req, res) => {
+  try {
+    const { problemId } = req.params;
+    const problem = await Problem.findOne({ problemId });
+
+    return res.status(200).json(problem);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error fetching problems" });
+  }
+};
