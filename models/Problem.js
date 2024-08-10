@@ -17,7 +17,6 @@ const problemSchema = new mongoose.Schema({
 	tags: [
 		{
 			type: String,
-			required: true,
 		},
 	],
 	description: {
@@ -54,7 +53,6 @@ const problemSchema = new mongoose.Schema({
 			},
 			explanation: {
 				type: String,
-				required: true,
 			},
 		},
 	],
