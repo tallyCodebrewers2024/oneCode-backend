@@ -46,12 +46,10 @@ const contestSchema = new mongoose.Schema({
       },
     },
   ],
-  authors: [
-    {
-      type: String,
-      required: true,
-    },
-  ],
+  author: {
+    type: String,
+    required: true,
+  },
 });
 
 const Contest =
