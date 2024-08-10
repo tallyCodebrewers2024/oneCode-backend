@@ -74,6 +74,11 @@ const problemSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	type: {
+		type: String,
+		required: true,
+		enum: ["Private", "Public"],
+	},
 	author: {
 		type: String,
 		required: true,

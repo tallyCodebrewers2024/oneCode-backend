@@ -5,7 +5,7 @@ const verifyToken = require("../middlewares/auth/verifyToken");
 
 router.use("/auth", require("./auth/index"));
 router.use("/compiler", verifyToken, require("./compiler/index"));
-router.use("/problems", verifyToken, require("./problems/index"));
+router.use("/problems", require("./problems/index"));
 router.use("/contests", require("./contests/index"));
 
 module.exports = router;
