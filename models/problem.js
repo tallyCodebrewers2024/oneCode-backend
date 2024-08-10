@@ -74,10 +74,9 @@ const problemSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	type: {
-		type: String,
-		required: true,
-		enum: ["Private", "Public"],
+	private: {
+		type: Boolean,
+		default: false,
 	},
 	author: {
 		type: String,
