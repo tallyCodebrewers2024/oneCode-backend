@@ -41,6 +41,6 @@ exports.getProblem = async (req, res) => {
     return res.status(200).json(problem);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Error fetching problems" });
+    res.status(500).json({ error: "Error fetching problem" });
   }
 };
