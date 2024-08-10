@@ -1,5 +1,5 @@
 const connectToMongoDB = require("../../db");
-const Problem = require("../../models/problem");
+const Problem = require("../../models/Problem");
 
 exports.addProblem = async (req, res) => {
   const problemData = req.body;
