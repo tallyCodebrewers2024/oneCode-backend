@@ -14,11 +14,11 @@ connectToMongoDB()
 	.then(() => {
 		const h_server = http.createServer(app);
 		server = h_server.listen(process.env.PORT || 5050, () => {
-			console.log(`⚙️ Listening on Port : ${process.env.PORT || 5050}`);
+			console.log(`⚙️  Listening on Port: ${process.env.PORT || 5050}`);
 		});
 	})
 	.catch((error) => {
-		console.log("MongoDB connection failed !! ", error);
+		console.log("MongoDB connection failed! ", error);
 	});
 
 const exitHandler = () => {

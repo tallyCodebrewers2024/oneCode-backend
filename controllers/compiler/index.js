@@ -78,7 +78,7 @@ exports.runcode = async (req, res) => {
                     let result = "";
 
                     stream.on("data", (chunk) => {
-                        result += chunk.toString("utf8"); 
+                        result += chunk.toString("utf8");
                     });
 
                     stream.on("end", () => {
@@ -107,14 +107,14 @@ exports.runcode = async (req, res) => {
                     let result = "";
 
                     stream.on("data", (chunk) => {
-                        result += chunk.toString("utf8"); 
+                        result += chunk.toString("utf8");
                     });
 
                     stream.on("end", () => {
                         result = result.replace(
                             /[\u0000-\u001F\u007F-\u009F]/g,
                             ""
-                        ); 
+                        );
                         resolve(result);
                     });
 
