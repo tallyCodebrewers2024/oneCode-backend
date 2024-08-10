@@ -1,4 +1,4 @@
-const Contest = require("../../models/contest");
+const Contest = require("../../models/Contest");
 
 exports.addContest = async (req, res) => {
 	const contestData = req.body;
