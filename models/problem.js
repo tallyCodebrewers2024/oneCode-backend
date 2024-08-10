@@ -52,6 +52,10 @@ const problemSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      explanation: {
+        type: String,
+        required: true,
+      },
     },
   ],
   testCases: [
