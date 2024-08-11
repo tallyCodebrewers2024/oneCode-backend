@@ -1,6 +1,7 @@
 const Docker = require("dockerode");
 const fs = require("fs");
 const path = require("path");
+const { exec } = require("child_process");
 
 const docker = new Docker();
 
@@ -157,7 +158,7 @@ const docker = new Docker();
 
 exports.runcode = async (req, res) => {
     let { code, language, input } = req.body;
-    
+
     if (input === undefined) input = "";
 
     let fileName,
@@ -203,7 +204,9 @@ exports.runcode = async (req, res) => {
     }
 
     const filePath = path.join(__dirname, "codes", fileName);
-    const inputFilePath = path.join(__dirname, "codes", "input.txt");
+
+    const inputFileName = `input_${Date.now()}.txt`;
+    const inputFilePath = path.join(__dirname, "codes", inputFileName);
 
     try {
         fs.writeFileSync(filePath, code);
@@ -231,7 +234,7 @@ exports.runcode = async (req, res) => {
                 "/usr/src/app/run_and_measure.sh",
                 fileName,
                 binaryName,
-                compileCmd ? compileCmd : "",
+                compileCmd ? compileCmd : null,
             ],
         });
 
@@ -249,14 +252,13 @@ exports.runcode = async (req, res) => {
                     let result = "";
 
                     stream.on("data", (chunk) => {
-                        result += chunk.toString("utf8");
+                        result += chunk
+                            .toString("utf8")
+                            // .replace(/[\x00-\x1F\x7F]/g, "");
+                            .replace(/[^\x09\x0A\x20-\x7E]+/g, '');
                     });
 
                     stream.on("end", () => {
-                        result = result.replace(
-                            /[\u0000-\u001F\u007F-\u009F]/g,
-                            ""
-                        );
                         resolve(result);
                     });
 
@@ -299,18 +301,18 @@ exports.runcode = async (req, res) => {
         await container.wait();
         await container.remove();
 
-        // Use regular expressions to extract the values
-        const outputMatch = outputString.match(/^(.*?)(?=Execution time:)/);
-        const execTimeMatch = outputString.match(
-            /Execution time:\s*(\d+)\s*ms/
-        );
-        const memoryMatch = outputString.match(/Memory usage:\s*(\d+)\s*KB/);
+        const output = outputString.split(" _____ ")[0];
+        const runtime = outputString.split(" _____ ")[1];
+        const memory = outputString.split(" _____ ")[2];
 
-        const output = outputMatch ? outputMatch[1].trim() : "";
-        const exec_time = execTimeMatch ? execTimeMatch[1] : "0";
-        const memory = memoryMatch ? memoryMatch[1] : "0";
+        res.status(200).json({
+            output,
+            runtime,
+            memory,
+            error,
+            outputString,
+        });
 
-        res.status(200).json({ output, exec_time, memory, error });
     } catch (error) {
         console.error("Error:", error);
         res.status(500).json({

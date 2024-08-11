@@ -16,23 +16,42 @@ if [ ! -z "$3" ]; then
     fi
 fi
 
-# Measure the execution time
-start_time=$(date +%s%N) # Record start time in nanoseconds
-output=$(/usr/bin/time -f "%M" -o mem_usage.txt bash -c "$binary_file < $INPUT_FILE" 2>&1)
-end_time=$(date +%s%N) # Record end time in nanoseconds
+# Measure execution time and memory usage
+/usr/bin/time -f "Time: %e Memory: %M" bash -c "$binary_file < $INPUT_FILE" > output.txt 2>execution_stats.txt
 
-# Calculate runtime
-runtime=$((end_time - start_time))
-runtime_ms=$((runtime / 1000000)) # Convert nanoseconds to milliseconds
+# Debugging: Show the content of execution_stats.txt
+# echo "Contents of execution_stats.txt:"
+# cat execution_stats.txt
 
-# Get memory usage
-mem_usage=$(cat mem_usage.txt)
+# Extract runtime and memory usage
+stats=$(cat execution_stats.txt)
 
-# Print output
-# echo "Output:"
-echo "$output"
-echo "Execution time: ${runtime_ms} ms"
-echo "Memory usage: ${mem_usage} KB"
+# Extract runtime and memory usage from the combined line
+runtime=$(echo $stats | awk '{print $2}')
+mem_usage=$(echo $stats | awk '{print $4}')
 
-# Clean up memory usage file
-rm -f mem_usage.txt
+# Convert runtime from seconds to milliseconds
+if [ ! -z "$runtime" ]; then
+    runtime_ms=$(echo "$runtime * 1000" | bc)
+fi
+
+# Check if memory usage is empty
+# if [ -z "$mem_usage" ]; then
+#     mem_usage="0"
+# fi
+
+# Print the program output
+output=$(cat output.txt)
+
+# Print the captured output with proper formatting
+printf "$output"
+printf " _____ $runtime_ms"
+printf " _____ $mem_usage"
+# printf "$stats"
+
+# Print execution time and memory usage
+# printf "\n${runtime} ms"
+# printf "\n${mem_usage} KB"
+
+# Clean up temporary files
+rm -f execution_stats.txt output.txt
