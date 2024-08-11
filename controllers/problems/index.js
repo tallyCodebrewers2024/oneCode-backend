@@ -65,17 +65,17 @@ exports.getProblemById = async (req, res) => {
   }
 };
 
-exports.getTestCases = async (req, res) => {
-    const { problemId } = req.params;
+// exports.getTestCases = async (req, res) => {
+//     const { problemId } = req.params;
 
-    try {
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            error: "Err",
-        });
-    }
-};
+//     try {
+//     } catch (error) {
+//         console.log(error);
+//         res.status(500).json({
+//             error: "Err",
+//         });
+//     }
+// };
 
 // exports.submitCode = async (req, res) => {
 //     const { problemId } = req.params;
