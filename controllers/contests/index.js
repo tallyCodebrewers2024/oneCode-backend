@@ -41,7 +41,6 @@ exports.getContest = async (req, res) => {
   try {
     const { contestId } = req.params;
     const contest = await Contest.findOne({ contestId });
-
     return res.status(200).json(contest);
   } catch (error) {
     console.log(error);

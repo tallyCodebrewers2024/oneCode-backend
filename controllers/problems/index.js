@@ -47,7 +47,17 @@ exports.getProblem = async (req, res) => {
   try {
     const { problemId } = req.params;
     const problem = await Problem.findOne({ problemId });
+    return res.status(200).json(problem);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error fetching problem" });
+  }
+};
 
+exports.getProblemById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const problem = await Problem.findById({ _id: id });
     return res.status(200).json(problem);
   } catch (error) {
     console.log(error);
