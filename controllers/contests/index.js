@@ -17,21 +17,22 @@ exports.addContest = async (req, res) => {
             : problem;
     });
 
-    // const modifiedContestData = {
-    //   ...contestData,
-    //   author,
-    //   contestId,
-    //   problems: problemsList,
-    // };
+  const modifiedContestData = {
+    ...contestData,
+    author,
+    contestId,
+  };
 
-    // try {
-    //   await Contest.create(modifiedContestData);
+  try {
+    // await Contest.create(modifiedContestData);
+    const newContest = new Contest(modifiedContestData);
+    await newContest.save();
 
-    //   return res.status(201).json({ message: "Contest Added Succesfully!" });
-    // } catch (error) {
-    //   console.log(error);
-    //   res.status(500).json({ error: "Error adding contest" });
-    // }
+    return res.status(201).json({ message: "Contest Added Succesfully!" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error adding contest" });
+  }
 };
 
 exports.getContest = async (req, res) => {
@@ -44,4 +45,14 @@ exports.getContest = async (req, res) => {
         console.log(error);
         res.status(500).json({ error: "Error fetching contest" });
     }
+};
+
+exports.getAllContests = async (req, res) => {
+  try {
+    const contests = await Contest.find();
+    return res.status(200).json(contests);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error fetching contests" });
+  }
 };
